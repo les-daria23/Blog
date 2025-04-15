@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Georgia', serif;
+    background: radial-gradient(circle at top center, #a2d4f2 0%, #7ccbe3 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Container principal */
+.bubble-background {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Chenar alb cu conținut */
+.articles-box {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 700px;
+    text-align: center;
+    z-index: 2;
+    box-shadow: 0 0 25px rgba(255,255,255,0.3);
+}
+
+h1 {
+    font-size: 36px;
+    color: #00334e;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    color: #004d6d;
+    margin-bottom: 30px;
+}
+
+/* Butoane */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.btn {
+    background-color: #00334e;
+    color: white;
+    padding: 14px 30px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.btn:hover {
+    background-color: #005f8a;
+    transform: translateY(-2px);
+}
+
+/* BULE ANIMATE */
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.bubbles span {
+    position: absolute;
+    display: block;
+    bottom: -150px;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: rise 10s linear infinite;
+    left: calc(100vw * var(--i) / 40);
+    animation-duration: calc(6s + var(--i) * 0.4s);
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-120vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* DELFIN ANIMAT */
+.dolphin {
+    position: absolute;
+    bottom: 20px;
+    left: -200px;
+    width: 200px;
+    animation: swim 15s linear infinite;
+    z-index: 2;
+    opacity: 0.9;
+}
+
+@keyframes swim {
+    0% {
+        transform: translateX(0) scaleX(1);
+    }
+    50% {
+        transform: translateX(110vw) scaleX(1);
+    }
+    50.01% {
+        transform: translateX(110vw) scaleX(-1); /* întoarce delfinul */
+    }
+    100% {
+        transform: translateX(0) scaleX(-1);
+    }
+}

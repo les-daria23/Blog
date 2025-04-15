@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulator Elastic</title>
+    <link rel="stylesheet" href="fizica-style.css">
+</head>
+<body>
+    <h1>Simulator Elastic - Frânghie și Resort</h1>
+    
+    <div class="container">
+        <div class="simulation-section">
+            <h2>Simulare Frânghie Elastică</h2>
+            
+            <div class="input-group">
+                <label for="masa-franghie">Masă (kg):</label>
+                <input type="number" id="masa-franghie" min="0.1" step="0.1" value="1.0">
+            </div>
+            
+            <div class="input-group">
+                <label for="lungime-franghie">Lungime frânghie (m):</label>
+                <input type="number" id="lungime-franghie" min="0.5" step="0.1" value="1.8">
+            </div>
+            
+            <div class="input-group">
+                <label for="rigiditate-franghie">Rigiditate (N/m):</label>
+                <input type="number" id="rigiditate-franghie" min="1" step="1" value="100">
+            </div>
+            
+            <button id="actualizeaza-franghie">Actualizează Simularea</button>
+            
+            <div class="controls">
+                <button id="porneste-franghie" class="play-button">Pornește</button>
+                <button id="pauza-franghie" class="pause-button">Pauză</button>
+                <button id="reseteaza-franghie" class="reset-button">Resetează</button>
+            </div>
+            
+            <div class="results" id="rezultate-franghie">
+                <h3>Stare curentă:</h3>
+                <p>Forța gravitațională: <span id="greutate-franghie">0</span> N</p>
+                <p>Tensiune frânghie: <span id="tensiune-franghie">0</span> N</p>
+                <p>Deplasare: <span id="deplasare-franghie">0</span> m</p>
+                <p>Viteză: <span id="viteza-franghie">0</span> m/s</p>
+                <p id="avertizare-franghie" class="warning"></p>
+            </div>
+            
+            <div class="visualization" id="vizualizare-franghie">
+                <div class="tavan"></div>
+                <div class="franghie-sus" id="franghie-sus" style="height: 90px;"></div>
+                <div class="franghie-jos" id="franghie-jos" style="height: 90px; top: 115px;"></div>
+                <div class="obiect" id="obiect-franghie" style="top: 205px;"></div>
+            </div>
+            
+            <div class="formule">
+                <h4>Formule utilizate:</h4>
+                <p>Forța gravitațională: F<sub>g</sub> = m × g</p>
+                <p>Tensiunea frânghiei: F<sub>t</sub> = k × Δx</p>
+                <p>Forța rezultantă: F<sub>r</sub> = F<sub>g</sub> - F<sub>t</sub> - β×v</p>
+                <p>Accelerația: a = F<sub>r</sub> / m</p>
+                <p>Viteza: v = v<sub>0</sub> + a × Δt</p>
+                <p>Poziția: x = x<sub>0</sub> + v × Δt</p>
+                <p>Unde:</p>
+                <p>m = masa, g = 9.81 m/s², k = rigiditatea, Δx = deformarea</p>
+                <p>β = coeficient de amortizare, v = viteză, t = timp</p>
+            </div>
+        </div>
+        
+        <div class="simulation-section">
+            <h2>Simulare Resort</h2>
+            
+            <div class="input-group">
+                <label for="masa-resort">Masă (kg):</label>
+                <input type="number" id="masa-resort" min="0.1" step="0.1" value="1.0">
+            </div>
+            
+            <div class="input-group">
+                <label for="lungime-resort">Lungime resort (m):</label>
+                <input type="number" id="lungime-resort" min="0.2" step="0.1" value="0.8">
+            </div>
+            
+            <div class="input-group">
+                <label for="constanta-resort">Constanta resort (N/m):</label>
+                <input type="number" id="constanta-resort" min="1" step="1" value="100">
+            </div>
+            
+            <button id="actualizeaza-resort">Actualizează Simularea</button>
+            
+            <div class="controls">
+                <button id="porneste-resort" class="play-button">Pornește</button>
+                <button id="pauza-resort" class="pause-button">Pauză</button>
+                <button id="reseteaza-resort" class="reset-button">Resetează</button>
+            </div>
+            
+            <div class="results" id="rezultate-resort">
+                <h3>Stare curentă:</h3>
+                <p>Forța gravitațională: <span id="greutate-resort">0</span> N</p>
+                <p>Forța elastică: <span id="forta-resort">0</span> N</p>
+                <p>Deplasare: <span id="deplasare-resort">0</span> m</p>
+                <p>Viteză: <span id="viteza-resort">0</span> m/s</p>
+                <p id="avertizare-resort" class="warning"></p>
+            </div>
+            
+            <div class="visualization" id="vizualizare-resort">
+                <div class="tavan"></div>
+                <div class="resort" id="resort" style="height: 80px;">
+                    <div class="spirala-resort"></div>
+                </div>
+                <div class="obiect" id="obiect-resort" style="top: 105px;"></div>
+            </div>
+            
+            <div class="formule">
+                <h4>Formule utilizate:</h4>
+                <p>Forța gravitațională: F<sub>g</sub> = m × g</p>
+                <p>Forța elastică: F<sub>e</sub> = k × Δx (Legea lui Hooke)</p>
+                <p>Forța rezultantă: F<sub>r</sub> = F<sub>g</sub> - F<sub>e</sub> - β×v</p>
+                <p>Accelerația: a = F<sub>r</sub> / m</p>
+                <p>Viteza: v = v<sub>0</sub> + a × Δt</p>
+                <p>Poziția: x = x<sub>0</sub> + v × Δt</p>
+                <p>Ecuația mișcării armonice:</p>
+                <p>m × d²x/dt² + β × dx/dt + k × x = m × g</p>
+                <p>Unde:</p>
+                <p>m = masa, g = 9.81 m/s², k = constanta elastică</p>
+                <p>Δx = deformarea, β = amortizarea, v = viteză</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="fizica.js"></script>
+</body>
+</html>

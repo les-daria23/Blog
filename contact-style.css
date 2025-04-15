@@ -1,0 +1,74 @@
+body {
+    background-color: #fdf6e3;
+    font-family: 'Georgia', serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container mare, centrat, cu chenar */
+.main-container {
+    width: 90%;
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Titlul principal */
+.contact-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Formularul propriu-zis */
+.form-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Label-urile */
+form label {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #444;
+    text-align: left;
+}
+
+/* Input, datalist și select */
+form input[type="text"],
+form input[list],
+form select {
+    width: 100%;
+    max-width: 600px;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Butonul */
+form button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 16px;
+    background-color: #f4a261;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #e76f51;
+}

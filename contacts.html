@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact</title>
+    <link rel="stylesheet" href="contact-style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <h1 class="contact-title"> Contact</h1>
+        <form id="contact-form" class="form-box">
+
+            <label for="lastname">Nume de familie:</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Popescu" required>
+
+            <label for="firstname">Prenume:</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Ana" required>
+
+            <label for="country">Țara:</label>
+            <input list="countries" id="country" name="country" placeholder="România" required>
+            <datalist id="countries">
+                <option value="România">
+                <option value="Moldova">
+                <option value="Italia">
+                <option value="Spania">
+                <option value="Franța">
+                <option value="Germania">
+                <option value="Canada">
+                <option value="SUA">
+            </datalist>
+
+            <label for="age">Vârsta:</label>
+            <select id="age" name="age" required>
+                <option value="">Selectează vârsta</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="18+">18+</option>
+            </select>
+
+            <button type="submit">Trimite</button>
+        </form>
+    </div>
+
+    <script src="contact.js"></script>
+</body>
+</html>

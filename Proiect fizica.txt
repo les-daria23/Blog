@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forța Elastică</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .spring-container {
+            position: relative;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+        }
+        .spring {
+            width: 10px;
+            height: 100px;
+            background: gray;
+            position: absolute;
+            top: 0;
+            transition: height 0.5s ease;
+        }
+        .weight {
+            width: 50px;
+            height: 50px;
+            background: red;
+            position: absolute;
+            top: 100px;
+            border-radius: 50%;
+            transition: top 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulare Forță Elastică</h1>
+    <div class="container">
+        <label for="forta">Introduceți forța (N): </label>
+        <input type="number" id="forta" min="0" step="1">
+        <button onclick="aplicaForta()">Aplică</button>
+    </div>
+    <div class="spring-container">
+        <div class="spring" id="arc"></div>
+        <div class="weight" id="greutate"></div>
+    </div>
+    <script>
+        function aplicaForta() {
+            let forta = document.getElementById("forta").value;
+            let deformare = Math.min(forta * 5, 150); // Limităm deformarea maximă
+            document.getElementById("arc").style.height = `${100 + deformare}px`;
+            document.getElementById("greutate").style.top = `${100 + deformare}px`;
+        }
+    </script>
+</body>
+</html>

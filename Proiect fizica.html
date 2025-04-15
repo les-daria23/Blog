@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulator Elastic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #e9f5ff;
+            background-image: linear-gradient(to bottom, #e9f5ff, #cce0ff);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+        }
+        .simulation-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 350px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .results {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f4fc;
+            border-radius: 5px;
+            border-left: 5px solid #3498db;
+        }
+        .visualization {
+            height: 500px;
+            margin-top: 25px;
+            position: relative;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+            background-image: linear-gradient(to bottom, #f9f9f9, #e6e6e6);
+        }
+        .formule {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            font-family: 'Courier New', monospace;
+        }
+        .formule h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .formule p {
+            margin: 5px 0;
+        }
+        .tavan {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25px;
+            background-color: #7f8c8d;
+            z-index: 1;
+        }
+        .obiect {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: #e74c3c;
+            border-radius: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            z-index: 3;
+            transition: top 0.3s ease-out;
+        }
+        .franghie {
+            position: absolute;
+            width: 6px;
+            background-color: #7f8c8d;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 25px;
+            z-index: 2;
+            transition: height 0.3s ease-out;
+        }
+        .franghie-sus {
+            position: absolute;
+            width: 6px;
+            background-color: #7f8c8d;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 25px;
+            z-index: 2;
+        }
+        .franghie-jos {
+            position: absolute;
+            width: 6px;
+            background-color: #7f8c8d;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .resort {
+            position: absolute;
+            width: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 25px;
+            z-index: 2;
+        }
+        .spirala-resort {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='500' viewBox='0 0 60 500'%3E%3Cpath d='M30,0 C30,0 45,20 30,40 C15,60 45,80 30,100 C15,120 45,140 30,160 C15,180 45,200 30,220 C15,240 45,260 30,280 C15,300 45,320 30,340 C15,360 45,380 30,400 C15,420 45,440 30,460 C15,480 45,500 30,500' stroke='%2316a085' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+            background-size: 60px 100%;
+            transition: height 0.3s ease-out;
+        }
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .controls button {
+            margin-top: 0;
+            flex: 1;
+        }
+        .play-button {
+            background-color: #2ecc71;
+        }
+        .play-button:hover {
+            background-color: #27ae60;
+        }
+        .pause-button {
+            background-color: #e67e22;
+        }
+        .pause-button:hover {
+            background-color: #d35400;
+        }
+        .reset-button {
+            background-color: #e74c3c;
+        }
+        .reset-button:hover {
+            background-color: #c0392b;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulator Elastic - Frânghie și Resort</h1>
+    
+    <div class="container">
+        <div class="simulation-section">
+            <h2>Simulare Frânghie Elastică</h2>
+            
+            <div class="input-group">
+                <label for="masa-franghie">Masă (kg):</label>
+                <input type="number" id="masa-franghie" min="0.1" step="0.1" value="1.0">
+            </div>
+            
+            <div class="input-group">
+                <label for="lungime-franghie">Lungime frânghie (m):</label>
+                <input type="number" id="lungime-franghie" min="0.5" step="0.1" value="1.8">
+            </div>
+            
+            <div class="input-group">
+                <label for="rigiditate-franghie">Rigiditate (N/m):</label>
+                <input type="number" id="rigiditate-franghie" min="1" step="1" value="100">
+            </div>
+            
+            <button id="actualizeaza-franghie">Actualizează Simularea</button>
+            
+            <div class="controls">
+                <button id="porneste-franghie" class="play-button">Pornește</button>
+                <button id="pauza-franghie" class="pause-button">Pauză</button>
+                <button id="reseteaza-franghie" class="reset-button">Resetează</button>
+            </div>
+            
+            <div class="results" id="rezultate-franghie">
+                <h3>Stare curentă:</h3>
+                <p>Forța gravitațională: <span id="greutate-franghie">0</span> N</p>
+                <p>Tensiune frânghie: <span id="tensiune-franghie">0</span> N</p>
+                <p>Deplasare: <span id="deplasare-franghie">0</span> m</p>
+                <p>Viteză: <span id="viteza-franghie">0</span> m/s</p>
+                <p id="avertizare-franghie" class="warning"></p>
+            </div>
+            
+            <div class="visualization" id="vizualizare-franghie">
+                <div class="tavan"></div>
+                <div class="franghie-sus" id="franghie-sus" style="height: 90px;"></div>
+                <div class="franghie-jos" id="franghie-jos" style="height: 90px; top: 115px;"></div>
+                <div class="obiect" id="obiect-franghie" style="top: 205px;"></div>
+            </div>
+            
+            <div class="formule">
+                <h4>Formule utilizate:</h4>
+                <p>Forța gravitațională: F<sub>g</sub> = m × g</p>
+                <p>Tensiunea frânghiei: F<sub>t</sub> = k × Δx</p>
+                <p>Forța rezultantă: F<sub>r</sub> = F<sub>g</sub> - F<sub>t</sub> - β×v</p>
+                <p>Accelerația: a = F<sub>r</sub> / m</p>
+                <p>Viteza: v = v<sub>0</sub> + a × Δt</p>
+                <p>Poziția: x = x<sub>0</sub> + v × Δt</p>
+                <p>Unde:</p>
+                <p>m = masa, g = 9.81 m/s², k = rigiditatea, Δx = deformarea</p>
+                <p>β = coeficient de amortizare, v = viteză, t = timp</p>
+            </div>
+        </div>
+        
+        <div class="simulation-section">
+            <h2>Simulare Resort</h2>
+            
+            <div class="input-group">
+                <label for="masa-resort">Masă (kg):</label>
+                <input type="number" id="masa-resort" min="0.1" step="0.1" value="1.0">
+            </div>
+            
+            <div class="input-group">
+                <label for="lungime-resort">Lungime resort (m):</label>
+                <input type="number" id="lungime-resort" min="0.2" step="0.1" value="0.8">
+            </div>
+            
+            <div class="input-group">
+                <label for="constanta-resort">Constanta resort (N/m):</label>
+                <input type="number" id="constanta-resort" min="1" step="1" value="100">
+            </div>
+            
+            <button id="actualizeaza-resort">Actualizează Simularea</button>
+            
+            <div class="controls">
+                <button id="porneste-resort" class="play-button">Pornește</button>
+                <button id="pauza-resort" class="pause-button">Pauză</button>
+                <button id="reseteaza-resort" class="reset-button">Resetează</button>
+            </div>
+            
+            <div class="results" id="rezultate-resort">
+                <h3>Stare curentă:</h3>
+                <p>Forța gravitațională: <span id="greutate-resort">0</span> N</p>
+                <p>Forța elastică: <span id="forta-resort">0</span> N</p>
+                <p>Deplasare: <span id="deplasare-resort">0</span> m</p>
+                <p>Viteză: <span id="viteza-resort">0</span> m/s</p>
+                <p id="avertizare-resort" class="warning"></p>
+            </div>
+            
+            <div class="visualization" id="vizualizare-resort">
+                <div class="tavan"></div>
+                <div class="resort" id="resort" style="height: 80px;">
+                    <div class="spirala-resort"></div>
+                </div>
+                <div class="obiect" id="obiect-resort" style="top: 105px;"></div>
+            </div>
+            
+            <div class="formule">
+                <h4>Formule utilizate:</h4>
+                <p>Forța gravitațională: F<sub>g</sub> = m × g</p>
+                <p>Forța elastică: F<sub>e</sub> = k × Δx (Legea lui Hooke)</p>
+                <p>Forța rezultantă: F<sub>r</sub> = F<sub>g</sub> - F<sub>e</sub> - β×v</p>
+                <p>Accelerația: a = F<sub>r</sub> / m</p>
+                <p>Viteza: v = v<sub>0</sub> + a × Δt</p>
+                <p>Poziția: x = x<sub>0</sub> + v × Δt</p>
+                <p>Ecuația mișcării armonice:</p>
+                <p>m × d²x/dt² + β × dx/dt + k × x = m × g</p>
+                <p>Unde:</p>
+                <p>m = masa, g = 9.81 m/s², k = constanta elastică</p>
+                <p>Δx = deformarea, β = amortizarea, v = viteză</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Constante
+        const g = 9.81;
+        const pixeliPeMetru = 100;
+        const masaMaximaFaraRupere = 50; // 50 kg
+
+        // Variabile simulare frânghie
+        let simulareFranghie = {
+            masa: 1.0,
+            lungime: 1.8,
+            rigiditate: 100,
+            pozitieInitiala: 0,
+            amortizare: 0.1,
+            pozitie: 0,
+            viteza: 0,
+            animatieId: null,
+            estePornita: false,
+            franghiaRupta: false
+        };
+        
+        // Variabile simulare resort
+        let simulareResort = {
+            masa: 1.0,
+            lungime: 0.8,
+            rigiditate: 100,
+            pozitieInitiala: 0,
+            amortizare: 0.1,
+            pozitie: 0,
+            viteza: 0,
+            animatieId: null,
+            estePornita: false,
+            resortRupt: false
+        };
+
+        // Inițializare simulări
+        function initSimulari() {
+            actualizeazaFranghie();
+            actualizeazaResort();
+        }
+
+        // Funcții simulare frânghie
+        function actualizeazaFranghie() {
+            simulareFranghie.masa = parseFloat(document.getElementById('masa-franghie').value);
+            simulareFranghie.lungime = parseFloat(document.getElementById('lungime-franghie').value);
+            simulareFranghie.rigiditate = parseFloat(document.getElementById('rigiditate-franghie').value);
+            simulareFranghie.franghiaRupta = false;
+            
+            actualizeazaVizualizareFranghie();
+            actualizeazaRezultateFranghie();
+        }
+
+        function actualizeazaVizualizareFranghie() {
+            const franghieSus = document.getElementById('franghie-sus');
+            const franghieJos = document.getElementById('franghie-jos');
+            const obiect = document.getElementById('obiect-franghie');
+            
+            const lungimeFranghiePixeli = simulareFranghie.lungime * pixeliPeMetru;
+            const deplasarePixeli = simulareFranghie.pozitie * pixeliPeMetru;
+            
+            if (simulareFranghie.franghiaRupta) {
+                // Frânghia este ruptă - arătăm doar jumătatea superioară
+                franghieSus.style.height = `${lungimeFranghiePixeli/2}px`;
+                franghieJos.style.display = 'none';
+                obiect.style.display = 'none';
+            } else {
+                // Frânghia este intactă
+                franghieSus.style.height = `${lungimeFranghiePixeli/2 + deplasarePixeli/2}px`;
+                franghieJos.style.height = `${lungimeFranghiePixeli/2 + deplasarePixeli/2}px`;
+                franghieJos.style.top = `${25 + lungimeFranghiePixeli/2 + deplasarePixeli/2}px`;
+                franghieJos.style.display = 'block';
+                obiect.style.top = `${25 + lungimeFranghiePixeli + deplasarePixeli}px`;
+                obiect.style.display = 'block';
+            }
+        }
+
+        function actualizeazaRezultateFranghie() {
+            const greutate = simulareFranghie.masa * g;
+            const tensiune = simulareFranghie.rigiditate * simulareFranghie.pozitie;
+            const avertizare = document.getElementById('avertizare-franghie');
+            
+            document.getElementById('greutate-franghie').textContent = greutate.toFixed(2);
+            document.getElementById('tensiune-franghie').textContent = tensiune.toFixed(2);
+            document.getElementById('deplasare-franghie').textContent = simulareFranghie.pozitie.toFixed(3);
+            document.getElementById('viteza-franghie').textContent = simulareFranghie.viteza.toFixed(3);
+            
+            if (simulareFranghie.masa > masaMaximaFaraRupere) {
+                avertizare.textContent = "ATENȚIE: Masa depășește 50 kg - frânghia se va rupe!";
+            } else {
+                avertizare.textContent = "";
+            }
+        }
+
+        function animatieFranghie(timestamp) {
+            if (simulareFranghie.franghiaRupta) {
+                return; // Nu facem nimic dacă frânghia este ruptă
+            }
+            
+            const greutate = simulareFranghie.masa * g;
+            const fortaElastica = simulareFranghie.rigiditate * simulareFranghie.pozitie;
+            const fortaAmortizare = -simulareFranghie.viteza * simulareFranghie.amortizare * simulareFranghie.rigiditate;
+            
+            const fortaRezultanta = greutate - fortaElastica + fortaAmortizare;
+            const acceleratie = fortaRezultanta / simulareFranghie.masa;
+            
+            simulareFranghie.viteza += acceleratie * 0.016;
+            simulareFranghie.pozitie += simulareFranghie.viteza * 0.016;
+            
+            // Verificăm dacă frânghia trebuie să se rupă
+            if (simulareFranghie.masa > masaMaximaFaraRupere && !simulareFranghie.franghiaRupta) {
+                simulareFranghie.franghiaRupta = true;
+                document.getElementById('avertizare-franghie').textContent = "FRÂNGHIA S-A RUPT!";
+            }
+            
+            actualizeazaVizualizareFranghie();
+            actualizeazaRezultateFranghie();
+            
+            if (simulareFranghie.estePornita && !simulareFranghie.franghiaRupta) {
+                simulareFranghie.animatieId = requestAnimationFrame(animatieFranghie);
+            }
+        }
+
+        // Funcții simulare resort
+        function actualizeazaResort() {
+            simulareResort.masa = parseFloat(document.getElementById('masa-resort').value);
+            simulareResort.lungime = parseFloat(document.getElementById('lungime-resort').value);
+            simulareResort.rigiditate = parseFloat(document.getElementById('constanta-resort').value);
+            simulareResort.resortRupt = false;
+            
+            actualizeazaVizualizareResort();
+            actualizeazaRezultateResort();
+        }
+
+        function actualizeazaVizualizareResort() {
+            const resort = document.getElementById('resort');
+            const obiect = document.getElementById('obiect-resort');
+            const spirala = document.querySelector('.spirala-resort');
+            
+            const lungimeResortPixeli = simulareResort.lungime * pixeliPeMetru;
+            const deplasarePixeli = simulareResort.pozitie * pixeliPeMetru;
+            
+            if (simulareResort.resortRupt) {
+                // Resortul este rupt - arătăm doar jumătatea superioară
+                resort.style.height = `${lungimeResortPixeli/2}px`;
+                spirala.style.height = `${lungimeResortPixeli/2}px`;
+                obiect.style.display = 'none';
+            } else {
+                // Resortul este intact
+                resort.style.height = `${lungimeResortPixeli + deplasarePixeli}px`;
+                obiect.style.top = `${25 + lungimeResortPixeli + deplasarePixeli}px`;
+                spirala.style.height = `${lungimeResortPixeli + deplasarePixeli}px`;
+                obiect.style.display = 'block';
+            }
+        }
+
+        function actualizeazaRezultateResort() {
+            const greutate = simulareResort.masa * g;
+            const fortaResort = simulareResort.rigiditate * simulareResort.pozitie;
+            const avertizare = document.getElementById('avertizare-resort');
+            
+            document.getElementById('greutate-resort').textContent = greutate.toFixed(2);
+            document.getElementById('forta-resort').textContent = fortaResort.toFixed(2);
+            document.getElementById('deplasare-resort').textContent = simulareResort.pozitie.toFixed(3);
+            document.getElementById('viteza-resort').textContent = simulareResort.viteza.toFixed(3);
+            
+            if (simulareResort.masa > masaMaximaFaraRupere) {
+                avertizare.textContent = "ATENȚIE: Masa depășește 50 kg - resortul se va rupe!";
+            } else {
+                avertizare.textContent = "";
+            }
+        }
+
+        function animatieResort(timestamp) {
+            if (simulareResort.resortRupt) {
+                return; // Nu facem nimic dacă resortul este rupt
+            }
+            
+            const greutate = simulareResort.masa * g;
+            const fortaElastica = simulareResort.rigiditate * simulareResort.pozitie;
+            const fortaAmortizare = -simulareResort.viteza * simulareResort.amortizare * simulareResort.rigiditate;
+            
+            const fortaRezultanta = greutate - fortaElastica + fortaAmortizare;
+            const acceleratie = fortaRezultanta / simulareResort.masa;
+            
+            simulareResort.viteza += acceleratie * 0.016;
+            simulareResort.pozitie += simulareResort.viteza * 0.016;
+            
+            // Verificăm dacă resortul trebuie să se rupă
+            if (simulareResort.masa > masaMaximaFaraRupere && !simulareResort.resortRupt) {
+                simulareResort.resortRupt = true;
+                document.getElementById('avertizare-resort').textContent = "RESORTUL S-A RUPT!";
+            }
+            
+            actualizeazaVizualizareResort();
+            actualizeazaRezultateResort();
+            
+            if (simulareResort.estePornita && !simulareResort.resortRupt) {
+                simulareResort.animatieId = requestAnimationFrame(animatieResort);
+            }
+        }
+
+        // Funcții de reset
+        function reseteazaFranghia() {
+            // Oprește animația
+            cancelAnimationFrame(simulareFranghie.animatieId);
+            simulareFranghie.estePornita = false;
+            
+            // Resetează poziția și viteza
+            simulareFranghie.pozitie = 0;
+            simulareFranghie.viteza = 0;
+            simulareFranghie.franghiaRupta = false;
+            
+            // Actualizează vizualizarea
+            actualizeazaVizualizareFranghie();
+            actualizeazaRezultateFranghie();
+            document.getElementById('avertizare-franghie').textContent = "";
+        }
+
+        function reseteazaResortul() {
+            // Oprește animația
+            cancelAnimationFrame(simulareResort.animatieId);
+            simulareResort.estePornita = false;
+            
+            // Resetează poziția și viteza
+            simulareResort.pozitie = 0;
+            simulareResort.viteza = 0;
+            simulareResort.resortRupt = false;
+            
+            // Actualizează vizualizarea
+            actualizeazaVizualizareResort();
+            actualizeazaRezultateResort();
+            document.getElementById('avertizare-resort').textContent = "";
+        }
+
+        // Ascultători de evenimente
+        document.getElementById('actualizeaza-franghie').addEventListener('click', function() {
+            if (simulareFranghie.estePornita) {
+                cancelAnimationFrame(simulareFranghie.animatieId);
+                simulareFranghie.estePornita = false;
+            }
+            actualizeazaFranghie();
+        });
+        
+        document.getElementById('porneste-franghie').addEventListener('click', function() {
+            if (!simulareFranghie.estePornita) {
+                simulareFranghie.estePornita = true;
+                simulareFranghie.animatieId = requestAnimationFrame(animatieFranghie);
+            }
+        });
+        
+        document.getElementById('pauza-franghie').addEventListener('click', function() {
+            if (simulareFranghie.estePornita) {
+                cancelAnimationFrame(simulareFranghie.animatieId);
+                simulareFranghie.estePornita = false;
+            }
+        });
+        
+        document.getElementById('reseteaza-franghie').addEventListener('click', function() {
+            reseteazaFranghia();
+        });
+        
+        document.getElementById('actualizeaza-resort').addEventListener('click', function() {
+            if (simulareResort.estePornita) {
+                cancelAnimationFrame(simulareResort.animatieId);
+                simulareResort.estePornita = false;
+            }
+            actualizeazaResort();
+        });
+        
+        document.getElementById('porneste-resort').addEventListener('click', function() {
+            if (!simulareResort.estePornita) {
+                simulareResort.estePornita = true;
+                simulareResort.animatieId = requestAnimationFrame(animatieResort);
+            }
+        });
+        
+        document.getElementById('pauza-resort').addEventListener('click', function() {
+            if (simulareResort.estePornita) {
+                cancelAnimationFrame(simulareResort.animatieId);
+                simulareResort.estePornita = false;
+            }
+        });
+        
+        document.getElementById('reseteaza-resort').addEventListener('click', function() {
+            reseteazaResortul();
+        });
+
+        // Inițializare la încărcarea paginii
+        window.addEventListener('load', initSimulari);
+    </script>
+</body>
+</html>
